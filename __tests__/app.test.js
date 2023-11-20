@@ -13,7 +13,7 @@ describe("/api", () => {
       .get("/api")
       .expect(200)
       .then(({ body }) => {
-        const regex = /(GET|POST|PATCH|DELETE) \/api(\S+)?\b/;
+        const regex = /^(GET|POST|PATCH|DELETE) \/api(\S+)?$/;
         for (let key in body) {
           expect(key).toMatch(regex);
           if (key === "GET /api") {
