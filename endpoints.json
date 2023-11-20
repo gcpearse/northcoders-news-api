@@ -1,46 +1,27 @@
 {
   "GET /api": {
-    "description": "serves up a json representation of all the available endpoints of the api",
-    "queries": [],
-    "exampleResponse": {
-      "GET /api/examples": {
-        "description": "serves an array of all examples",
-        "queries": [],
-        "exampleResponse": {
-          "examples": [
-            {
-              "exampleKeyOne": "exampleValueOne",
-              "exampleKeyTwo": "exampleValueTwo"
-            }
-          ]
-        }
-      }
-    }
+    "description": "Responds with a JSON representation of all the available endpoints of the API"
   },
   "GET /api/articles": {
-    "description": "serves an array of all articles",
-    "queries": [
-      "author",
-      "topic",
-      "sort_by",
-      "order"
-    ],
+    "description": "Responds with an array of all articles in the database",
+    "queries": [],
     "exampleResponse": {
       "articles": [
         {
+          "article_id": 101,
           "title": "Seafood substitutions are increasing",
           "topic": "cooking",
           "author": "weegembump",
-          "body": "Text from the article..",
           "created_at": "2018-05-30T15:59:13.341Z",
           "votes": 0,
+          "article_img_url": "https://www.pexels.com/photo/shrimp-salad-on-plate-566345/",
           "comment_count": 6
         }
       ]
     }
   },
   "GET /api/articles/:article_id": {
-    "description": "serves an article object with an ID matching the parametric endpoint",
+    "description": "Responds with an article object matching the passed value of article_id",
     "queries": [],
     "exampleResponse": {
       "article": [
@@ -49,7 +30,7 @@
           "title": "Struggling to find closure",
           "topic": "functions",
           "author": "northcoder2023",
-          "body": "Certain coding topics...",
+          "body": "Certain coding topics are...",
           "created_at": "2023-11-20T15:59:13.000Z",
           "votes": 3,
           "comment_count": 9
@@ -58,13 +39,13 @@
     }
   },
   "GET /api/topics": {
-    "description": "serves an array of all topics",
+    "description": "Responds with an array of all topics in the database",
     "queries": [],
     "exampleResponse": {
       "topics": [
         {
           "slug": "football",
-          "description": "Footie!"
+          "description": "The beautiful game"
         }
       ]
     }
