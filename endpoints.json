@@ -50,5 +50,23 @@
         }
       ]
     }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves an article object with an ID matching the parametric endpoint",
+    "queries": [],
+    "exampleResponse": {
+      "article": [
+        {
+          "article_id": 99,
+          "title": "Struggling to find closure",
+          "topic": "functions",
+          "author": "northcoder2023",
+          "body": "Certain coding topics...",
+          "created_at": "2023-11-20T15:59:13.000Z",
+          "votes": 3,
+          "comment_count": 9
+        }
+      ]
+    }
   }
 }
