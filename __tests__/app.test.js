@@ -7,24 +7,6 @@ const data = require("../db/data/test-data");
 beforeEach(() => seed(data));
 afterAll(() => db.end());
 
-describe("/api/topics", () => {
-  test("GET:200 responds with an array of topics objects, each with 'slug' and 'description' properties", () => {
-    return request(app)
-      .get("/api/topics")
-      .expect(200)
-      .then(({ body }) => {
-        const topics = body.topics;
-        expect(topics).toHaveLength(3);
-        topics.forEach(topic => {
-          expect(topic).toMatchObject({
-            slug: expect.any(String),
-            description: expect.any(String)
-          });
-        });
-      });
-  });
-});
-
 describe("/api", () => {
   test("GET:200 responds with an object describing all available endpoints on the API", () => {
     return request(app)
@@ -51,7 +33,7 @@ describe("/api/articles/:article_id", () => {
       .expect(200)
       .then(({ body }) => {
         const article = body.article;
-        console.log(article)
+        console.log(article);
         expect(article).toMatchObject({
           article_id: 1,
           title: "Living in the shadow of a great man",
@@ -78,6 +60,24 @@ describe("/api/articles/:article_id", () => {
       .expect(400)
       .then(({ body }) => {
         expect(body.message).toBe("Bad request");
+      });
+  });
+});
+
+describe("/api/topics", () => {
+  test("GET:200 responds with an array of topics objects, each with 'slug' and 'description' properties", () => {
+    return request(app)
+      .get("/api/topics")
+      .expect(200)
+      .then(({ body }) => {
+        const topics = body.topics;
+        expect(topics).toHaveLength(3);
+        topics.forEach(topic => {
+          expect(topic).toMatchObject({
+            slug: expect.any(String),
+            description: expect.any(String)
+          });
+        });
       });
   });
 });

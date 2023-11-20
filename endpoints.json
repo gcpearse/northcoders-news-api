@@ -17,18 +17,6 @@
       }
     }
   },
-  "GET /api/topics": {
-    "description": "serves an array of all topics",
-    "queries": [],
-    "exampleResponse": {
-      "topics": [
-        {
-          "slug": "football",
-          "description": "Footie!"
-        }
-      ]
-    }
-  },
   "GET /api/articles": {
     "description": "serves an array of all articles",
     "queries": [
@@ -65,6 +53,18 @@
           "created_at": "2023-11-20T15:59:13.000Z",
           "votes": 3,
           "comment_count": 9
+        }
+      ]
+    }
+  },
+  "GET /api/topics": {
+    "description": "serves an array of all topics",
+    "queries": [],
+    "exampleResponse": {
+      "topics": [
+        {
+          "slug": "football",
+          "description": "Footie!"
         }
       ]
     }
