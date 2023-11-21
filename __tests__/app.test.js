@@ -149,7 +149,74 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(body.message).toBe("Bad request");
       });
   });
+});
 
+describe("POST /api/articles/:article_id/comments", () => {
+  test("POST:201 posts a new comment to the article with the given article_id, and sends the new comment back to the client", () => {
+    const newComment = {
+      username: "lurker",
+      body: "Has anyone heard any more about this?"
+    };
+    return request(app)
+      .post("/api/articles/5/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        const comment = body.comment;
+        expect(comment).toMatchObject({
+          comment_id: 19,
+          body: 'Has anyone heard any more about this?',
+          article_id: 5,
+          author: 'lurker',
+          votes: 0,
+          created_at: expect.any(String)
+        });
+      });
+  });
+
+  test("POST:400 responds with an error message when provided with an invalid comment (e.g. no body property)", () => {
+    const badComment = {
+      username: "lurker"
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(badComment)
+      .expect(400)
+      .then(({ body }) => {
+        const message = body.message;
+        expect(message).toBe("Bad request");
+      });
+  });
+
+  test("POST:404 responds with an error message when the article_id is valid but does not exist", () => {
+    const goodComment = {
+      username: "lurker",
+      body: "I know how to write a good comment"
+    };
+    return request(app)
+      .post("/api/articles/250/comments")
+      .send(goodComment)
+      .expect(404)
+      .then(({ body }) => {
+        const message = body.message;
+        expect(message).toBe("Article not found");
+      });
+  });
+
+  test("POST:400 responds with an error message when the article_id is invalid", () => {
+    const exampleComment = {
+      username: "lurker",
+      body: "Why is this not working?"
+    };
+    return request(app)
+      .post("/api/articles/seven/comments")
+      .send(exampleComment)
+      .expect(400)
+      .then(({ body }) => {
+        const message = body.message;
+        expect(message).toBe("Bad request");
+      });
+  });
 });
 
 describe("GET /api/topics", () => {
