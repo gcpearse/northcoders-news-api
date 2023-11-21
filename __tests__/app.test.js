@@ -199,7 +199,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(404)
       .then(({ body }) => {
         const message = body.message;
-        expect(message).toBe("Article not found");
+        expect(message).toBe("Not found");
       });
   });
 
