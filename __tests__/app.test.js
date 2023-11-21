@@ -149,7 +149,6 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(body.message).toBe("Bad request");
       });
   });
-
 });
 
 describe("GET /api/topics", () => {
