@@ -33,7 +33,7 @@ describe("GET /api", () => {
 });
 
 describe("GET /api/articles", () => {
-  test("GET:200 responds with an array of article objects, sorted by data (created_at) in descending order", () => {
+  test("GET:200 responds with an array of article objects, sorted by date (created_at) in descending order", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
@@ -96,6 +96,50 @@ describe("GET /api/articles/:article_id", () => {
         expect(body.message).toBe("Bad request");
       });
   });
+});
+
+describe("GET /api/articles/:article_id/comments", () => {
+  test("GET:200 responds with an array of all comments on the article with the given article_id, ordered by date (created_at) to show the most recent comments first", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const comments = body.comments;
+        expect(comments).toHaveLength(11);
+        comments.forEach((comment) => {
+          expect(comment).toMatchObject({
+            comment_id: expect.any(Number),
+            body: expect.any(String),
+            article_id: expect.any(Number),
+            author: expect.any(String),
+            votes: expect.any(Number),
+            created_at: expect.any(String)
+          });
+        });
+        expect(comments).toBeSortedBy("created_at", {
+          descending: true
+        });
+      });
+  });
+
+  test("GET:404 responds with an error message when the article_id is valid but does not exist", () => {
+    return request(app)
+      .get("/api/articles/100/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toBe("No comments found");
+      });
+  });
+
+  test("GET:400 responds with an error message when the article_id is invalid", () => {
+    return request(app)
+      .get("/api/articles/one/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toBe("Bad request");
+      });
+  });
+
 });
 
 describe("GET /api/topics", () => {
