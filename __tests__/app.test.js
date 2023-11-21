@@ -7,7 +7,7 @@ const data = require("../db/data/test-data");
 beforeEach(() => seed(data));
 afterAll(() => db.end());
 
-describe("/api", () => {
+describe("GET /api", () => {
   test("GET:200 responds with an object describing all available endpoints on the API", () => {
     return request(app)
       .get("/api")
@@ -32,7 +32,7 @@ describe("/api", () => {
   });
 });
 
-describe("/api/articles", () => {
+describe("GET /api/articles", () => {
   test("GET:200 responds with an array of article objects, sorted by data (created_at) in descending order", () => {
     return request(app)
       .get("/api/articles")
@@ -59,7 +59,7 @@ describe("/api/articles", () => {
   });
 });
 
-describe("/api/articles/:article_id", () => {
+describe("GET /api/articles/:article_id", () => {
   test("GET:200 responds with an article object", () => {
     return request(app)
       .get("/api/articles/1")
@@ -98,7 +98,7 @@ describe("/api/articles/:article_id", () => {
   });
 });
 
-describe("/api/topics", () => {
+describe("GET /api/topics", () => {
   test("GET:200 responds with an array of topics objects, each with 'slug' and 'description' properties", () => {
     return request(app)
       .get("/api/topics")

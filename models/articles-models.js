@@ -8,8 +8,7 @@ exports.selectAllArticles = () => {
   LEFT OUTER JOIN comments
   ON articles.article_id = comments.article_id
   GROUP BY articles.article_id
-  ORDER BY articles.created_at DESC
-  ;
+  ORDER BY articles.created_at DESC;
   `)
     .then(({ rows }) => {
       return rows;
