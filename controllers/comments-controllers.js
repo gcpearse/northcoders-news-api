@@ -1,5 +1,5 @@
 const { checkArticleExists } = require("../models/articles-models");
-const { selectCommentsByArticleId } = require("../models/comment-models");
+const { selectCommentsByArticleId, insertCommentByArticleId } = require("../models/comment-models");
 
 exports.getCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
@@ -11,6 +11,16 @@ exports.getCommentsByArticleId = (req, res, next) => {
     .then((commentsPromises) => {
       const comments = commentsPromises[0];
       res.status(200).send({ comments });
+    })
+    .catch(next);
+};
+
+exports.postCommentByArticleId = (req, res, next) => {
+  const newComment = req.body;
+  const { article_id } = req.params;
+  insertCommentByArticleId(newComment, article_id)
+    .then((comment) => {
+      res.status(201).send({ comment });
     })
     .catch(next);
 };
