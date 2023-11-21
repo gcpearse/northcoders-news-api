@@ -257,6 +257,34 @@ describe("POST /api/articles/:article_id/comments", () => {
   });
 });
 
+describe("DELETE /api/comments/:comment_id", () => {
+  test("DELETE:204 deletes the comment with the given ID, responding with a 204 status code and no content", () => {
+    return request(app)
+      .delete("/api/comments/1")
+      .expect(204);
+  });
+
+  test("DELETE:404 responds with an error message when the comment_id is valid but does not exist", () => {
+    return request(app)
+      .delete("/api/comments/111")
+      .expect(404)
+      .then(({ body }) => {
+        const message = body.message;
+        expect(message).toBe("Comment not found");
+      });
+  });
+
+  test("DELETE:400 responds with an error message when the comment_id is invalid", () => {
+    return request(app)
+      .delete("/api/comments/twenty")
+      .expect(400)
+      .then(({ body }) => {
+        const message = body.message
+        expect(message).toBe("Bad request");
+      });
+  });
+});
+
 describe("GET /api/topics", () => {
   test("GET:200 responds with an array of topics objects, each with 'slug' and 'description' properties", () => {
     return request(app)
