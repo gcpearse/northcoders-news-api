@@ -173,6 +173,20 @@ describe("PATCH /api/articles/:article_id", () => {
         expect(message).toBe("Article not found");
       });
   });
+
+  test("PATCH:400 responds with an error message when the article_id is invalid", () => {
+    const examplePatchRequest = {
+      inc_votes: 9
+    };
+    return request(app)
+      .patch("/api/articles/eight")
+      .send(examplePatchRequest)
+      .expect(400)
+      .then(({ body }) => {
+        const message = body.message;
+        expect(message).toBe("Bad request");
+      });
+  });
 });
 
 describe("GET /api/articles/:article_id/comments", () => {
