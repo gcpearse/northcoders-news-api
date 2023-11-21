@@ -33,7 +33,7 @@ describe("GET /api", () => {
 });
 
 describe("GET /api/articles", () => {
-  test("GET:200 responds with an array of article objects, sorted by data (created_at) in descending order", () => {
+  test("GET:200 responds with an array of article objects, sorted by date (created_at) in descending order", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
