@@ -174,6 +174,29 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 
+  test("POST:201 posts a new comment to the article with the given article_id, and sends the new comment back to the client while ignoring any unnecessary object properties", () => {
+    const newComment = {
+      username: "lurker",
+      body: "Is this comment acceptable?",
+      votes: 5
+    };
+    return request(app)
+      .post("/api/articles/4/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        const comment = body.comment;
+        expect(comment).toMatchObject({
+          comment_id: 19,
+          body: 'Is this comment acceptable?',
+          article_id: 4,
+          author: 'lurker',
+          votes: 0,
+          created_at: expect.any(String)
+        });
+      });
+  });
+
   test("POST:400 responds with an error message when provided with an invalid comment (e.g. no body property)", () => {
     const badComment = {
       username: "lurker"
@@ -185,6 +208,21 @@ describe("POST /api/articles/:article_id/comments", () => {
       .then(({ body }) => {
         const message = body.message;
         expect(message).toBe("Bad request");
+      });
+  });
+
+  test("POST:404 responds with an error message when the username does not exist", () => {
+    const anonymousComment = {
+      username: "unregistered_user",
+      body: "I do not want to register"
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(anonymousComment)
+      .expect(404)
+      .then(({ body }) => {
+        const message = body.message;
+        expect(message).toBe("Not found");
       });
   });
 
