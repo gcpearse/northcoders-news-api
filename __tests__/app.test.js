@@ -98,6 +98,83 @@ describe("GET /api/articles/:article_id", () => {
   });
 });
 
+describe("PATCH /api/articles/:article_id", () => {
+  test("PATCH:200 updates the value of the votes property on the article with the given article_id, and sends the updated article back to the client", () => {
+    const increment = {
+      inc_votes: 1
+    };
+    return request(app)
+      .patch("/api/articles/10")
+      .send(increment)
+      .expect(200)
+      .then(({ body }) => {
+        const article = body.article;
+        expect(article).toMatchObject({
+          article_id: 10,
+          title: "Seven inspirational thought leaders from Manchester UK",
+          topic: "mitch",
+          author: "rogersop",
+          body: "Who are we kidding, there is only one, and it's Mitch!",
+          created_at: "2020-05-14T04:15:00.000Z",
+          votes: 1,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        });
+      });
+  });
+
+  test("PATCH:200 updates the value of the votes property on the article with the given article_id, and sends the updated article back to the client, while ignoring any unnecessary properties on the object", () => {
+    const decrement = {
+      inc_votes: -4,
+      body: "I've changed my mind"
+    };
+    return request(app)
+      .patch("/api/articles/9")
+      .send(decrement)
+      .expect(200)
+      .then(({ body }) => {
+        const article = body.article;
+        expect(article).toMatchObject({
+          article_id: 9,
+          title: "They're not exactly dogs, are they?",
+          topic: "mitch",
+          author: "butter_bridge",
+          body: "Well? Think about it.",
+          created_at: "2020-06-06T09:10:00.000Z",
+          votes: -4,
+          article_img_url: "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+        });
+      });
+  });
+
+  test("PATCH:400 responds with an error message when provided with an invalid patch request (e.g. value of inc_votes is not a number)", () => {
+    const badPatchRequest = {
+      inc_votes: "add one"
+    };
+    return request(app)
+      .patch("/api/articles/3")
+      .send(badPatchRequest)
+      .expect(400)
+      .then(({ body }) => {
+        const message = body.message;
+        expect(message).toBe("Bad request");
+      });
+  });
+
+  test("PATCH:404 responds with an error message when the article_id is valid but does not exist", () => {
+    const goodPatchRequest = {
+      inc_votes: 4
+    };
+    return request(app)
+      .patch("/api/articles/300")
+      .send(goodPatchRequest)
+      .expect(404)
+      .then(({ body }) => {
+        const message = body.message;
+        expect(message).toBe("Article not found");
+      });
+  });
+});
+
 describe("GET /api/articles/:article_id/comments", () => {
   test("GET:200 responds with an array of all comments on the article with the given article_id, ordered by date (created_at) to show the most recent comments first", () => {
     return request(app)
