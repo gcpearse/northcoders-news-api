@@ -38,6 +38,22 @@
       ]
     }
   },
+  "GET /api/articles/:article_id/comments": {
+    "description": "Responds with an array of comments on the article with the passed article_id",
+    "queries": [],
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": 123,
+          "body": "Some text here...",
+          "article_id": 234,
+          "author": "forum_mod",
+          "votes": 345,
+          "created_at": "2023-09-02T13:53:23.000Z"
+        }
+      ]
+    }
+  },
   "GET /api/topics": {
     "description": "Responds with an array of all topics in the database",
     "queries": [],
