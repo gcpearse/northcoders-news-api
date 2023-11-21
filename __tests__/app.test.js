@@ -122,12 +122,22 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
   });
 
+  test("GET:200 responds with an empty array when the article_id is valid but there are no comments", () => {
+    return request(app)
+      .get("/api/articles/2/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const comments = body.comments;
+        expect(comments).toEqual([]);
+      });
+  });
+
   test("GET:404 responds with an error message when the article_id is valid but does not exist", () => {
     return request(app)
       .get("/api/articles/100/comments")
       .expect(404)
       .then(({ body }) => {
-        expect(body.message).toBe("No comments found");
+        expect(body.message).toBe("Article not found");
       });
   });
 
