@@ -59,6 +59,49 @@ describe("GET /api/articles", () => {
   });
 });
 
+describe("GET /api/articles?topic=", () => {
+  test("GET:200 responds with an array of article objects, filtered by the topic value specified in the query", () => {
+    return request(app)
+      .get("/api/articles?topic=cats")
+      .expect(200)
+      .then(({ body }) => {
+        const articles = body.articles;
+        expect(articles).toHaveLength(1);
+        articles.forEach((article) => {
+          expect(article).toMatchObject({
+            article_id: expect.any(Number),
+            title: expect.any(String),
+            topic: "cats",
+            author: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            article_img_url: expect.any(String),
+            comment_count: expect.any(Number)
+          });
+        });
+      });
+  });
+
+  test("GET:200 responds with an empty array when the topic query is valid but there are no associated articles", () => {
+    return request(app)
+      .get("/api/articles?topic=paper")
+      .expect(200)
+      .then(({ body }) => {
+        const articles = body.articles;
+        expect(articles).toHaveLength(0);
+      });
+  });
+
+  test("GET:404 responds with an error message when the topic value in the query is invalid", () => {
+    return request(app)
+      .get("/api/articles?topic=dogs")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toBe("Your search did not match any results");
+      });
+  });
+});
+
 describe("GET /api/articles/:article_id", () => {
   test("GET:200 responds with an article object", () => {
     return request(app)

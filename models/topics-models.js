@@ -8,3 +8,12 @@ exports.selectAllTopics = () => {
       return rows;
     });
 };
+
+exports.getValidTopics = () => {
+  return db.query(`
+  SELECT slug FROM topics;
+  `)
+    .then(({ rows }) => {
+      return rows.map((row) => row.slug);
+    });
+};
