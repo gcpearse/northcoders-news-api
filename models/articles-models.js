@@ -1,7 +1,9 @@
 const db = require("../db/connection");
+const { getValidTopics } = require("./topics-models");
 
-exports.selectAllArticles = () => {
-  return db.query(`
+exports.selectAllArticles = async (topic) => {
+  const validTopics = await getValidTopics();
+  let queryString = `
   SELECT 
     articles.article_id, 
     articles.title, 
@@ -15,8 +17,26 @@ exports.selectAllArticles = () => {
   FROM articles
   LEFT OUTER JOIN comments
   ON articles.article_id = comments.article_id
+  `;
+
+  if (topic) {
+    if (!validTopics.includes(topic)) {
+      return Promise.reject({
+        status: 404,
+        message: "Your search did not match any results"
+      });
+    } else {
+      queryString += `WHERE topic = '${topic}'`;
+    }
+  }
+
+  queryString += `
   GROUP BY articles.article_id
   ORDER BY articles.created_at DESC;
+  `;
+
+  return db.query(`
+  ${queryString}
   `)
     .then(({ rows }) => {
       return rows;
