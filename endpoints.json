@@ -24,18 +24,16 @@
     "description": "Responds with an article object matching the passed value of article_id",
     "queries": [],
     "exampleResponse": {
-      "article": [
-        {
-          "article_id": 99,
-          "title": "Struggling to find closure",
-          "topic": "functions",
-          "author": "northcoder2023",
-          "body": "Certain coding topics are...",
-          "created_at": "2023-11-20T15:59:13.000Z",
-          "votes": 3,
-          "comment_count": 9
-        }
-      ]
+      "article": {
+        "article_id": 99,
+        "title": "Struggling to find closure",
+        "topic": "functions",
+        "author": "northcoder2023",
+        "body": "Certain coding topics are...",
+        "created_at": "2023-11-20T15:59:13.000Z",
+        "votes": 3,
+        "comment_count": 9
+      }
     }
   },
   "GET /api/articles/:article_id/comments": {
@@ -64,6 +62,43 @@
           "description": "The beautiful game"
         }
       ]
+    }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "Responds with the comment object posted by the client",
+    "queries": [],
+    "exampleRequestBody": {
+      "username": "api_expert",
+      "body": "Let me help you with this project"
+    },
+    "exampleResponse": {
+      "comment": {
+        "comment_id": 19,
+        "body": "Has anyone heard any more about this?",
+        "article_id": 5,
+        "author": "lurker",
+        "votes": 0,
+        "created_at": "2023-09-02T13:53:23.000Z"
+      }
+    }
+  },
+  "PATCH /api/articles/:article_id/comments": {
+    "description": "Responds with the article object updated by the client",
+    "queries": [],
+    "exampleRequestBody": {
+      "inc_votes": 1
+    },
+    "exampleResponse": {
+      "article": {
+        "article_id": 30,
+        "title": "Top national parks in Costa Rica",
+        "topic": "travel",
+        "author": "jungle_nomad",
+        "body": "The highlight of any trip to Latin America...",
+        "created_at": "2023-11-21T19:15:00.000Z",
+        "votes": 1,
+        "article_img_url": "https://www.pexels.com/photo/mountains-under-blue-sky-1624880/"
+      }
     }
   }
 }
