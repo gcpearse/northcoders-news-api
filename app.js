@@ -20,7 +20,7 @@ app.post("/api/articles/:article_id/comments", postCommentByArticleId);
 
 app.patch("/api/articles/:article_id", patchArticleById);
 
-app.delete("/api/comments/:comment_id", deleteCommentById)
+app.delete("/api/comments/:comment_id", deleteCommentById);
 
 app.use(handlePsqlErrors);
 app.use(handleCustomErrors);

@@ -4,7 +4,9 @@
   },
   "GET /api/articles": {
     "description": "Responds with an array of all articles in the database. Results may be filtered by the value specified in a valid query",
-    "queries": ["topic"],
+    "queries": [
+      "topic"
+    ],
     "exampleResponse": {
       "articles": [
         {
