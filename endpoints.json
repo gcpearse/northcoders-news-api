@@ -100,5 +100,10 @@
         "article_img_url": "https://www.pexels.com/photo/mountains-under-blue-sky-1624880/"
       }
     }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "Responds with a 204 status code and no content",
+    "queries": [],
+    "exampleResponse": {}
   }
 }
