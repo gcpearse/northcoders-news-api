@@ -67,6 +67,10 @@
   "POST /api/articles/:article_id/comments": {
     "description": "Responds with the comment object posted by the client",
     "queries": [],
+    "exampleRequestBody": {
+      "username": "api_expert",
+      "body": "Let me help you with this project"
+    },
     "exampleResponse": {
       "comment": {
         "comment_id": 19,
@@ -81,6 +85,9 @@
   "PATCH /api/articles/:article_id/comments": {
     "description": "Responds with the article object updated by the client",
     "queries": [],
+    "exampleRequestBody": {
+      "inc_votes": 1
+    },
     "exampleResponse": {
       "article": {
         "article_id": 30,
