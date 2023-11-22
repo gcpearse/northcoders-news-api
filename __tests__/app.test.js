@@ -3,6 +3,7 @@ const db = require("../db/connection");
 const request = require("supertest");
 const seed = require("../db/seeds/seed");
 const data = require("../db/data/test-data");
+const endpoints = require("../endpoints.json");
 
 beforeEach(() => seed(data));
 afterAll(() => db.end());
@@ -13,21 +14,7 @@ describe("GET /api", () => {
       .get("/api")
       .expect(200)
       .then(({ body }) => {
-        const regex = /^(GET|POST|PATCH|DELETE) \/api(\S+)?$/;
-        for (let key in body) {
-          expect(key).toMatch(regex);
-          if (key === "GET /api") {
-            expect(body[key]).toMatchObject({
-              description: expect.any(String)
-            });
-          } else {
-            expect(body[key]).toMatchObject({
-              description: expect.any(String),
-              queries: expect.any(Array),
-              exampleResponse: expect.any(Object)
-            });
-          }
-        }
+        expect(body).toEqual(endpoints);
       });
   });
 });
