@@ -64,6 +64,19 @@
       ]
     }
   },
+  "GET /api/users": {
+    "description": "Responds with an array of all users in the database",
+    "queries": [],
+    "exampleResponse": {
+      "users": [
+        {
+          "username": "data_devil",
+          "name": "John Smith",
+          "avatar_url": "https://avatars2.githubusercontent.com"
+        }
+      ]
+    }
+  },
   "POST /api/articles/:article_id/comments": {
     "description": "Responds with the comment object posted by the client",
     "queries": [],

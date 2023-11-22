@@ -370,7 +370,7 @@ describe("DELETE /api/comments/:comment_id", () => {
       .delete("/api/comments/twenty")
       .expect(400)
       .then(({ body }) => {
-        const message = body.message
+        const message = body.message;
         expect(message).toBe("Bad request");
       });
   });
@@ -388,6 +388,25 @@ describe("GET /api/topics", () => {
           expect(topic).toMatchObject({
             slug: expect.any(String),
             description: expect.any(String)
+          });
+        });
+      });
+  });
+});
+
+describe("GET /api/users", () => {
+  test("GET:200 responds with an array of user objects, each with 'username', 'name', and 'avatar_url' properties", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        const users = body.users;
+        expect(users).toHaveLength(4);
+        users.forEach((user) => {
+          expect(user).toMatchObject({
+            username: expect.any(String),
+            name: expect.any(String),
+            avatar_url: expect.any(String)
           });
         });
       });
