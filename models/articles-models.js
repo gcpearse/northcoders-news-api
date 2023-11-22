@@ -1,4 +1,5 @@
 const db = require("../db/connection");
+const format = require("pg-format");
 const { getValidTopics } = require("./topics-models");
 
 exports.selectAllArticles = async (topic) => {
@@ -26,7 +27,7 @@ exports.selectAllArticles = async (topic) => {
         message: "Your search did not match any results"
       });
     } else {
-      queryString += `WHERE topic = '${topic}'`;
+      queryString += format(`WHERE topic = %L`, topic);
     }
   }
 
