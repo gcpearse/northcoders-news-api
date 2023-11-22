@@ -1,19 +1,12 @@
 const { selectArticleById, selectAllArticles, updateArticleById } = require("../models/articles-models");
 
-const validQueries = ["topic"]
-
 exports.getAllArticles = (req, res, next) => {
-  const query = Object.keys(req.query)[0]
-  const { topic } = req.query
-  if (query && !validQueries.includes(query)) {
-    res.status(404).send({ message: "Your search did not match any results" })
-  } else {
-    selectAllArticles(topic)
+  const { topic } = req.query;
+  selectAllArticles(topic)
     .then((articles) => {
       res.status(200).send({ articles });
     })
     .catch(next);
-  }
 };
 
 exports.getArticleById = (req, res, next) => {
