@@ -23,7 +23,7 @@
     }
   },
   "GET /api/articles/:article_id": {
-    "description": "Responds with an article object matching the passed value of article_id",
+    "description": "Responds with an article object matching the passed value of article_id. The object will include a comment_count property to show the total number of comments on that article",
     "queries": [],
     "exampleResponse": {
       "article": {
@@ -34,6 +34,7 @@
         "body": "Certain coding topics are...",
         "created_at": "2023-11-20T15:59:13.000Z",
         "votes": 3,
+        "article_img_url": "https://www.pexels.com/photo/photo-of-turned-on-laptop-computer-943096/",
         "comment_count": 9
       }
     }
@@ -112,7 +113,8 @@
         "body": "The highlight of any trip to Latin America...",
         "created_at": "2023-11-21T19:15:00.000Z",
         "votes": 1,
-        "article_img_url": "https://www.pexels.com/photo/mountains-under-blue-sky-1624880/"
+        "article_img_url": "https://www.pexels.com/photo/mountains-under-blue-sky-1624880/",
+        "comment_count": 24
       }
     }
   },
