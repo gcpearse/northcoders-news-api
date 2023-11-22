@@ -92,7 +92,7 @@ describe("GET /api/articles?topic=", () => {
       });
   });
 
-  test("GET:400 responds with an error message when the topic value in the query is invalid", () => {
+  test("GET:404 responds with an error message when the topic value in the query is invalid", () => {
     return request(app)
       .get("/api/articles?topic=dogs")
       .expect(404)
