@@ -122,7 +122,7 @@ describe("PATCH /api/articles/:article_id", () => {
       });
   });
 
-  test("PATCH:200 updates the value of the votes property on the article with the given article_id, and sends the updated article back to the client, while ignoring any unnecessary properties on the object", () => {
+  test("PATCH:200 ignores any unnecessary properties on the object", () => {
     const decrement = {
       inc_votes: -4,
       body: "I've changed my mind"
