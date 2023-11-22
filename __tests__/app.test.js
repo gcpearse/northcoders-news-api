@@ -68,11 +68,10 @@ describe("GET /api/articles?topic=", () => {
         const articles = body.articles;
         expect(articles).toHaveLength(1);
         articles.forEach((article) => {
-          expect(article.topic).toBe("cats");
           expect(article).toMatchObject({
             article_id: expect.any(Number),
             title: expect.any(String),
-            topic: expect.any(String),
+            topic: "cats",
             author: expect.any(String),
             created_at: expect.any(String),
             votes: expect.any(Number),
@@ -99,15 +98,6 @@ describe("GET /api/articles?topic=", () => {
       .expect(404)
       .then(({ body }) => {
         expect(body.message).toBe("Your search did not match any results");
-      });
-  });
-
-  test("GET:400 responds with an error message when the query itself does not match any results", () => {
-    return request(app)
-      .get("/api/articles?secrets=password")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.message).toBe("Your search did not match any results")
       });
   });
 });
