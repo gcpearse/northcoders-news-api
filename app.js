@@ -18,9 +18,9 @@ app.get("/api/users", getUsers);
 
 app.post("/api/articles/:article_id/comments", postCommentByArticleId);
 
-app.delete("/api/comments/:comment_id", deleteCommentById)
-
 app.patch("/api/articles/:article_id", patchArticleById);
+
+app.delete("/api/comments/:comment_id", deleteCommentById)
 
 app.use(handlePsqlErrors);
 app.use(handleCustomErrors);

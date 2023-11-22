@@ -155,8 +155,7 @@ describe("PATCH /api/articles/:article_id", () => {
       .send(badPatchRequest)
       .expect(400)
       .then(({ body }) => {
-        const message = body.message;
-        expect(message).toBe("Bad request");
+        expect(body.message).toBe("Bad request");
       });
   });
 
@@ -169,8 +168,7 @@ describe("PATCH /api/articles/:article_id", () => {
       .send(goodPatchRequest)
       .expect(404)
       .then(({ body }) => {
-        const message = body.message;
-        expect(message).toBe("Article not found");
+        expect(body.message).toBe("Article not found");
       });
   });
 
@@ -183,8 +181,7 @@ describe("PATCH /api/articles/:article_id", () => {
       .send(examplePatchRequest)
       .expect(400)
       .then(({ body }) => {
-        const message = body.message;
-        expect(message).toBe("Bad request");
+        expect(body.message).toBe("Bad request");
       });
   });
 });
@@ -218,8 +215,7 @@ describe("GET /api/articles/:article_id/comments", () => {
       .get("/api/articles/2/comments")
       .expect(200)
       .then(({ body }) => {
-        const comments = body.comments;
-        expect(comments).toEqual([]);
+        expect(body.comments).toEqual([]);
       });
   });
 
@@ -297,8 +293,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       .send(badComment)
       .expect(400)
       .then(({ body }) => {
-        const message = body.message;
-        expect(message).toBe("Bad request");
+        expect(body.message).toBe("Bad request");
       });
   });
 
@@ -312,8 +307,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       .send(anonymousComment)
       .expect(404)
       .then(({ body }) => {
-        const message = body.message;
-        expect(message).toBe("Not found");
+        expect(body.message).toBe("Not found");
       });
   });
 
@@ -327,8 +321,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       .send(goodComment)
       .expect(404)
       .then(({ body }) => {
-        const message = body.message;
-        expect(message).toBe("Not found");
+        expect(body.message).toBe("Not found");
       });
   });
 
@@ -342,8 +335,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       .send(exampleComment)
       .expect(400)
       .then(({ body }) => {
-        const message = body.message;
-        expect(message).toBe("Bad request");
+        expect(body.message).toBe("Bad request");
       });
   });
 });
@@ -360,8 +352,7 @@ describe("DELETE /api/comments/:comment_id", () => {
       .delete("/api/comments/111")
       .expect(404)
       .then(({ body }) => {
-        const message = body.message;
-        expect(message).toBe("Comment not found");
+        expect(body.message).toBe("Comment not found");
       });
   });
 
@@ -370,8 +361,7 @@ describe("DELETE /api/comments/:comment_id", () => {
       .delete("/api/comments/twenty")
       .expect(400)
       .then(({ body }) => {
-        const message = body.message;
-        expect(message).toBe("Bad request");
+        expect(body.message).toBe("Bad request");
       });
   });
 });
