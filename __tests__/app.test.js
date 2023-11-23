@@ -113,12 +113,25 @@ describe("GET /api/articles", () => {
         });
     });
 
-    test("GET:200 functionality works for columns created by aggregate functions", () => {
+    test.only("GET:200 functionality works for columns created by aggregate functions", () => {
       return request(app)
         .get("/api/articles?sort_by=comment_count")
         .expect(200)
         .then(({ body }) => {
           const articles = body.articles;
+          console.log(articles)
+          articles.forEach((article) => {
+            expect(article).toMatchObject({
+              article_id: expect.any(Number),
+              title: expect.any(String),
+              topic: expect.any(String),
+              author: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+              article_img_url: expect.any(String),
+              comment_count: expect.any(Number)
+            });
+          });
           expect(articles).toBeSortedBy("comment_count", {
             descending: true
           });
