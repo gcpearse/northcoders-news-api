@@ -14,15 +14,15 @@ The hosted version of the API can be accessed here: https://northcoders-news-api
 
 Please ensure you have the following installed on your local machine:
 
-`Node.js` &nbsp; | &nbsp; v20.6.0\
-`NPM` &nbsp; | &nbsp; 9.8.1\
-`PostgreSQL` &nbsp; | &nbsp; 14.10
+Node.js &nbsp;&nbsp; v20.6.0\
+NPM &nbsp; &nbsp; 9.8.1\
+PostgreSQL &nbsp;&nbsp; 14.10
 
 These are the minimum versions required to run this project.
 
 ### Cloning the Repository
 
-Begin by clicking on the `CODE` button and copying the URL. Then, navigate to the directory into which you would like to clone the repository, and run this command:
+Begin by clicking on the **CODE** button above and copying the URL. Then, navigate to the directory into which you would like to clone the repository, and run this command:
 
 ```
 git clone <URL>
