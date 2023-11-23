@@ -11,7 +11,8 @@ exports.selectAllArticles = async (topic, sort_by = "created_at", order = "desc"
     "author",
     "created_at",
     "votes",
-    "article_img_url"
+    "article_img_url",
+    "comment_count"
   ];
   const validOrder = ["asc", "desc"];
   let queryString = `
