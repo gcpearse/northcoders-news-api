@@ -95,6 +95,29 @@
       ]
     }
   },
+  "POST /api/articles": {
+    "description": "Responds with the article object posted by the client",
+    "queries": [],
+    "exampleRequestBody": {
+      "author": "chefpierre",
+      "title": "French cuisine",
+      "body": "My top tips for home cooking",
+      "topic": "cooking"
+    },
+    "exampleResponse": {
+      "article": {
+        "article_id": 323,
+        "title": "French cuisine",
+        "topic": "cooking",
+        "author": "chefpierre",
+        "body": "My top tips for home cooking",
+        "created_at": "2023-11-11T19:21:49.000Z",
+        "votes": 0,
+        "article_img_url": "image_not_provided",
+        "comment_count": 0
+      }
+    }
+  },
   "POST /api/articles/:article_id/comments": {
     "description": "Responds with the comment object posted by the client",
     "queries": [],
