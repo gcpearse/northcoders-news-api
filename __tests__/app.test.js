@@ -422,7 +422,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 
-  test("POST:201 posts a new comment to the article with the given article_id, and sends the new comment back to the client while ignoring any unnecessary object properties", () => {
+  test("POST:201 ignores any unnecessary object properties", () => {
     const newComment = {
       username: "lurker",
       body: "Is this comment acceptable?",
