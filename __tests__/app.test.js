@@ -219,6 +219,125 @@ describe("GET /api/articles", () => {
   });
 });
 
+describe("POST /api/articles", () => {
+  test("POST:201 responds with the newly added article, which should include the properties from the request body along with 'article_id', 'votes', 'created_at', and 'comment_count'", () => {
+    const newArticle = {
+      author: "butter_bridge",
+      title: "How to take care of a cat",
+      body: "Read the docs!",
+      topic: "cats",
+      article_img_url: "https://www.pexels.com/photo/white-and-grey-kitten-on-brown-and-black-leopard-print-textile-45201/"
+    };
+    return request(app)
+      .post("/api/articles")
+      .send(newArticle)
+      .expect(201)
+      .then(({ body }) => {
+        const article = body.article;
+        expect(article).toMatchObject({
+          article_id: 14,
+          title: "How to take care of a cat",
+          topic: "cats",
+          author: "butter_bridge",
+          body: "Read the docs!",
+          created_at: expect.any(String),
+          votes: 0,
+          article_img_url: "https://www.pexels.com/photo/white-and-grey-kitten-on-brown-and-black-leopard-print-textile-45201/",
+          comment_count: 0
+        });
+      });
+  });
+
+  test("POST:201 assigns a default value to article_img_url when no image URL is provided", () => {
+    const lostCatArticle = {
+      author: "butter_bridge",
+      title: "I've lost my cat",
+      body: "But I don't have a picture of him",
+      topic: "cats"
+    };
+    return request(app)
+      .post("/api/articles")
+      .send(lostCatArticle)
+      .expect(201)
+      .then(({ body }) => {
+        const article = body.article;
+        expect(article).toMatchObject({
+          article_id: 14,
+          title: "I've lost my cat",
+          topic: "cats",
+          author: "butter_bridge",
+          body: "But I don't have a picture of him",
+          created_at: expect.any(String),
+          votes: 0,
+          article_img_url: "image_not_provided",
+          comment_count: 0
+        });
+      });
+  });
+
+  test("POST:201 ignores any unnecessary properties on the object", () => {
+    const mitchArticle = {
+      author: "butter_bridge",
+      title: "Who is Mitch?",
+      body: "I've never even met him",
+      topic: "mitch",
+      article_img_url: "https://www.pexels.com/photo/question-mark-on-chalk-board-356079/",
+      age: 30,
+      location: "Skye"
+    };
+    return request(app)
+      .post("/api/articles")
+      .send(mitchArticle)
+      .expect(201)
+      .then(({ body }) => {
+        const article = body.article;
+        expect(article).toMatchObject({
+          article_id: 14,
+          title: "Who is Mitch?",
+          topic: "mitch",
+          author: "butter_bridge",
+          body: "I've never even met him",
+          created_at: expect.any(String),
+          votes: 0,
+          article_img_url: "https://www.pexels.com/photo/question-mark-on-chalk-board-356079/",
+          comment_count: 0
+        });
+      });
+  });
+
+  test("POST:400 responds with an error message when provided with an invalid article (e.g. no body property)", () => {
+    const badArticle = {
+      author: "butter_bridge",
+      title: "Musing about Mitch",
+      topic: "mitch"
+    };
+    return request(app)
+      .post("/api/articles")
+      .send(badArticle)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toBe("Bad request");
+      });
+  });
+
+  test("POST:404 responds with an error message when the author does not exist", () => {
+    const anonymousArticle = {
+      author: "secret_user",
+      title: "How to take care of a cat",
+      body: "Read the docs!",
+      topic: "cats",
+      article_img_url: "https://www.pexels.com/photo/white-and-grey-kitten-on-brown-and-black-leopard-print-textile-45201/"
+    };
+    return request(app)
+      .post("/api/articles")
+      .send(anonymousArticle)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toBe("Not found");
+      });
+  });
+});
+
 describe("GET /api/articles/:article_id", () => {
   test("GET:200 responds with an article object that shows the total number of comments for the article with the given article_id", () => {
     return request(app)
