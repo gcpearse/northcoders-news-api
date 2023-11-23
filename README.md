@@ -14,9 +14,11 @@ The hosted version of the API can be accessed here: https://northcoders-news-api
 
 Please ensure you have the following installed on your local machine:
 
-Node.js &nbsp;&nbsp; v20.6.0\
-NPM &nbsp; &nbsp; 9.8.1\
-PostgreSQL &nbsp;&nbsp; 14.10
+| Prerequisite | Version |
+| --- | --- |
+| Node.js | v20.6.0 |
+| NPM | 9.8.1 |
+| PostgreSQL | 14.10 |
 
 These are the minimum versions required to run this project.
 
