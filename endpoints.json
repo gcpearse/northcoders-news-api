@@ -82,6 +82,19 @@
       ]
     }
   },
+  "GET /api/users/:username": {
+    "description": "Responds with a user object if the passed username matches a username in the database",
+    "queries": [],
+    "exampleResponse": {
+      "users": [
+        {
+          "username": "coding_king",
+          "name": "Matthew Java",
+          "avatar_url": "https://avatars2.githubusercontent.com"
+        }
+      ]
+    }
+  },
   "POST /api/articles/:article_id/comments": {
     "description": "Responds with the comment object posted by the client",
     "queries": [],

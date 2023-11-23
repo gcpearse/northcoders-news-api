@@ -564,6 +564,31 @@ describe("GET /api/users", () => {
   });
 });
 
+describe("GET /api/users/:username", () => {
+  test("GET:200 responds with a user object matching the given username", () => {
+    return request(app)
+      .get("/api/users/rogersop")
+      .expect(200)
+      .then(({ body }) => {
+        const user = body.user;
+        expect(user).toMatchObject({
+          username: "rogersop",
+          name: "paul",
+          avatar_url: "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4"
+        });
+      });
+  });
+
+  test("GET:404 responds with an error message when the username is valid but does not exist", () => {
+    return request(app)
+      .get("/api/users/forumtroll")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toBe("User not found");
+      });
+  });
+});
+
 describe("ANY /api/notapath", () => {
   test("404: responds with an error message if path not found", () => {
     return request(app)
