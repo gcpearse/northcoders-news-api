@@ -113,6 +113,18 @@ describe("GET /api/articles", () => {
         });
     });
 
+    test("GET:200 functionality works for columns created by aggregate functions", () => {
+      return request(app)
+        .get("/api/articles?sort_by=comment_count")
+        .expect(200)
+        .then(({ body }) => {
+          const articles = body.articles;
+          expect(articles).toBeSortedBy("comment_count", {
+            descending: true
+          });
+        });
+    });
+
     test("GET:400 responds with an error message when the sort_by value in the query is invalid", () => {
       return request(app)
         .get("/api/articles?sort_by=birds")
