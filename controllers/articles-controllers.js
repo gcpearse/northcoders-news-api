@@ -2,7 +2,9 @@ const { selectArticleById, selectAllArticles, updateArticleById } = require("../
 
 exports.getAllArticles = (req, res, next) => {
   const { topic } = req.query;
-  selectAllArticles(topic)
+  const { sort_by } = req.query;
+  const { order } = req.query;
+  selectAllArticles(topic, sort_by, order)
     .then((articles) => {
       res.status(200).send({ articles });
     })

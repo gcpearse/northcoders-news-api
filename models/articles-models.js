@@ -2,8 +2,18 @@ const db = require("../db/connection");
 const format = require("pg-format");
 const { getValidTopics } = require("./topics-models");
 
-exports.selectAllArticles = async (topic) => {
+exports.selectAllArticles = async (topic, sort_by = "created_at", order = "desc") => {
   const validTopics = await getValidTopics();
+  const validSortBy = [
+    "article_id",
+    "title",
+    "topic",
+    "author",
+    "created_at",
+    "votes",
+    "article_img_url"
+  ];
+  const validOrder = ["asc", "desc"];
   let queryString = `
   SELECT 
     articles.article_id, 
@@ -31,9 +41,27 @@ exports.selectAllArticles = async (topic) => {
     }
   }
 
+  if (sort_by) {
+    if (!validSortBy.includes(sort_by)) {
+      return Promise.reject({
+        status: 400,
+        message: "Bad request"
+      });
+    }
+  }
+
+  if (order) {
+    if (!validOrder.includes(order)) {
+      return Promise.reject({
+        status: 400,
+        message: "Bad request"
+      });
+    }
+  }
+
   queryString += `
   GROUP BY articles.article_id
-  ORDER BY articles.created_at DESC;
+  ORDER BY articles.${sort_by} ${order};
   `;
 
   return db.query(`
