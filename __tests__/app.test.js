@@ -113,13 +113,12 @@ describe("GET /api/articles", () => {
         });
     });
 
-    test.only("GET:200 functionality works for columns created by aggregate functions", () => {
+    test("GET:200 functionality works for columns created by aggregate functions", () => {
       return request(app)
         .get("/api/articles?sort_by=comment_count")
         .expect(200)
         .then(({ body }) => {
           const articles = body.articles;
-          console.log(articles)
           articles.forEach((article) => {
             expect(article).toMatchObject({
               article_id: expect.any(Number),
