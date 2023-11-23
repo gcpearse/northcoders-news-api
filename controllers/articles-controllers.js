@@ -1,6 +1,6 @@
 const { selectArticleById, selectAllArticles, updateArticleById } = require("../models/articles-models");
 
-exports.getAllArticles = (req, res, next) => {
+exports.getArticles = (req, res, next) => {
   const { topic } = req.query;
   const { sort_by } = req.query;
   const { order } = req.query;
