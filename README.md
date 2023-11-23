@@ -6,7 +6,7 @@ The Northcoders News API is a fully functional API using Node.js to interact wit
 
 It mimics a real-world forum or news website on which users are able to interact with articles, leave comments, vote, and explore a range of topics.
 
-The hosted version of the API can be accessed here: https://northcoders-news-api-twr1.onrender.com/api
+The hosted version of the API can be accessed [here](https://northcoders-news-api-twr1.onrender.com/api).
 
 ## Local Setup Instructions
 
