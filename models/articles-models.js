@@ -118,6 +118,19 @@ exports.checkArticleExists = (article_id) => {
     });
 };
 
+exports.insertArticle = ({ author, title, body, topic, article_img_url = "image_not_provided" }) => {
+  return db.query(`
+  INSERT INTO articles
+    (author, title, body, topic, article_img_url)
+  VALUES
+    ($1, $2, $3, $4, $5)
+  RETURNING *;
+  `, [author, title, body, topic, article_img_url])
+    .then(({ rows }) => {
+      return this.selectArticleById(rows[0].article_id);
+    });
+};
+
 exports.updateArticleById = (article_id, inc_votes) => {
   return db.query(`
     UPDATE articles
