@@ -501,6 +501,78 @@ describe("POST /api/articles/:article_id/comments", () => {
   });
 });
 
+describe("PATCH /api/comments/:comment_id", () => {
+  test("PATCH:200 updates the value of the votes property on the comment with the given comment_id, and sends the updated comment back to the client", () => {
+    const increment = {
+      inc_votes: 3
+    };
+    return request(app)
+      .patch("/api/comments/17")
+      .send(increment)
+      .expect(200)
+      .then(({ body }) => {
+        const comment = body.comment;
+        expect(comment).toMatchObject({
+          comment_id: 17,
+          body: "The owls are not what they seem.",
+          article_id: 9,
+          author: "icellusedkars",
+          votes: 23,
+          created_at: "2020-03-14T17:02:00.000Z"
+        });
+      });
+  });
+
+  test("PATCH:200 ignores any unnecessary properties on the object", () => {
+    const decrement = {
+      inc_votes: -1,
+      body: "Not a fan"
+    };
+    return request(app)
+      .patch("/api/comments/18")
+      .send(decrement)
+      .expect(200)
+      .then(({ body }) => {
+        const comment = body.comment;
+        console.log(comment)
+        expect(comment).toMatchObject({
+          comment_id: 18,
+          body: "This morning, I showered for nine minutes.",
+          article_id: 1,
+          author: "butter_bridge",
+          votes: 15,
+          created_at: "2020-07-21T00:20:00.000Z"
+        });
+      });
+  });
+
+  test("PATCH:404 responds with an error message when the comment_id is valid but does not exist", () => {
+    const incObject = {
+      inc_votes: 2
+    };
+    return request(app)
+      .patch("/api/comments/77")
+      .send(incObject)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toBe("Comment not found");
+      });
+  });
+
+  test("PATCH:400 responds with an error message when the comment_id is valid but does not exist", () => {
+    const decObject = {
+      inc_votes: -4
+    };
+    return request(app)
+      .patch("/api/comments/twelve")
+      .send(decObject)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toBe("Bad request");
+      });
+  });
+});
+
 describe("DELETE /api/comments/:comment_id", () => {
   test("DELETE:204 deletes the comment with the given ID, responding with a 204 status code and no content", () => {
     return request(app)
