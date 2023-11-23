@@ -534,7 +534,6 @@ describe("PATCH /api/comments/:comment_id", () => {
       .expect(200)
       .then(({ body }) => {
         const comment = body.comment;
-        console.log(comment)
         expect(comment).toMatchObject({
           comment_id: 18,
           body: "This morning, I showered for nine minutes.",
