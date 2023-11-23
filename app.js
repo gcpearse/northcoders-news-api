@@ -7,6 +7,7 @@ const topicsRouter = require("./routes/topics-router");
 const usersRouter = require("./routes/users-router");
 
 const app = express();
+
 app.use(express.json());
 
 app.get("/api", getEndpoints);

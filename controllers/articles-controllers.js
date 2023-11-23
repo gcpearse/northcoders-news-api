@@ -1,9 +1,7 @@
 const { selectArticleById, selectAllArticles, updateArticleById, insertArticle } = require("../models/articles-models");
 
 exports.getArticles = (req, res, next) => {
-  const { topic } = req.query;
-  const { sort_by } = req.query;
-  const { order } = req.query;
+  const { topic, sort_by, order } = req.query;
   selectAllArticles(topic, sort_by, order)
     .then((articles) => {
       res.status(200).send({ articles });
@@ -30,8 +28,8 @@ exports.postArticle = (req, res, next) => {
 };
 
 exports.patchArticleById = (req, res, next) => {
-  const { inc_votes } = req.body;
   const { article_id } = req.params;
+  const { inc_votes } = req.body;
   updateArticleById(article_id, inc_votes)
     .then((article) => {
       res.status(200).send({ article });
