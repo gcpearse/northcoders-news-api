@@ -1,12 +1,12 @@
-const { selectArticleById, selectAllArticles, updateArticleById, insertArticle } = require("../models/articles-models");
+const { selectArticleById, selectAllArticles, updateArticleById, insertArticle, removeArticleById } = require("../models/articles-models");
 
 exports.getArticles = (req, res, next) => {
   const queries = req.query;
   selectAllArticles(queries)
     .then((articles) => {
-      res.status(200).send({ 
+      res.status(200).send({
         articles: articles,
-        total_count: articles.length  
+        total_count: articles.length
       });
     })
     .catch(next);
@@ -36,6 +36,15 @@ exports.patchArticleById = (req, res, next) => {
   updateArticleById(article_id, inc_votes)
     .then((article) => {
       res.status(200).send({ article });
+    })
+    .catch(next);
+};
+
+exports.deleteArticleById = (req, res, next) => {
+  const { article_id } = req.params;
+  removeArticleById(article_id)
+    .then(() => {
+      res.status(204).send();
     })
     .catch(next);
 };
