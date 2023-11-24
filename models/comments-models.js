@@ -1,6 +1,9 @@
 const db = require("../db/connection");
+const { checkArticleExists } = require("./articles-models");
 
-exports.selectCommentsByArticleId = (article_id, { limit = 10, p }) => {
+exports.selectCommentsByArticleId = async (article_id, { limit = 10, p }) => {
+  const existingArticle = await checkArticleExists(article_id);
+
   if (article_id) {
     if (isNaN(+article_id) || +article_id < 0) {
       return Promise.reject({
@@ -49,7 +52,7 @@ exports.selectCommentsByArticleId = (article_id, { limit = 10, p }) => {
           message: "Page not found"
         });
       }
-      return rows;
+      return Promise.all([rows, existingArticle]);
     });
 };
 

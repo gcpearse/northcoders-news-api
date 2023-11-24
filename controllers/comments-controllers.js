@@ -1,16 +1,11 @@
-const { checkArticleExists } = require("../models/articles-models");
 const { selectCommentsByArticleId, insertCommentByArticleId, removeCommentById, updateCommentById } = require("../models/comments-models");
 
 exports.getCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
   const queries = req.query;
-  const commentsPromises = [selectCommentsByArticleId(article_id, queries)];
-  if (article_id) {
-    commentsPromises.push(checkArticleExists(article_id));
-  }
-  Promise.all(commentsPromises)
-    .then((commentsPromises) => {
-      const comments = commentsPromises[0];
+  selectCommentsByArticleId(article_id, queries)
+    .then((promises) => {
+      const comments = promises[0];
       res.status(200).send({ comments });
     })
     .catch(next);
