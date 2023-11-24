@@ -1,10 +1,13 @@
 const { selectArticleById, selectAllArticles, updateArticleById, insertArticle } = require("../models/articles-models");
 
 exports.getArticles = (req, res, next) => {
-  const { topic, sort_by, order } = req.query;
-  selectAllArticles(topic, sort_by, order)
+  const queries = req.query;
+  selectAllArticles(queries)
     .then((articles) => {
-      res.status(200).send({ articles });
+      res.status(200).send({ 
+        articles: articles,
+        total_count: articles.length  
+      });
     })
     .catch(next);
 };
