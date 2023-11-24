@@ -191,6 +191,11 @@
       }
     }
   },
+  "DELETE /api/articles/:article_id": {
+    "description": "Responds with a 204 status code and no content",
+    "queries": [],
+    "exampleResponse": {}
+  },
   "DELETE /api/comments/:comment_id": {
     "description": "Responds with a 204 status code and no content",
     "queries": [],
