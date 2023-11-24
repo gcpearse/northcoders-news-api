@@ -1,6 +1,7 @@
 const express = require("express");
 const { handleNotFound, getEndpoints } = require("./controllers/general-controllers");
 const { handleCustomErrors, handleServerErrors, handlePsqlErrors } = require("./errors");
+
 const articlesRouter = require("./routes/articles-router");
 const commentsRouter = require("./routes/comments-router");
 const topicsRouter = require("./routes/topics-router");
