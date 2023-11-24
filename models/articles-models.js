@@ -163,6 +163,29 @@ exports.updateArticleById = (article_id, inc_votes) => {
     });
 };
 
+exports.removeArticleById = (article_id) => {
+  return db.query(`
+  DELETE FROM comments
+  WHERE article_id = $1
+  RETURNING *;
+  `, [article_id])
+    .then(() => {
+      return db.query(`
+    DELETE FROM articles
+    WHERE articles.article_id = $1
+    RETURNING *
+    `, [article_id]);
+    })
+    .then(({ rowCount }) => {
+      if (!rowCount) {
+        return Promise.reject({
+          status: 404,
+          message: "Article not found"
+        });
+      }
+    });
+};
+
 exports.checkArticleExists = (article_id) => {
   return db.query(`
   SELECT * FROM articles
