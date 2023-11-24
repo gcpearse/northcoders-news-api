@@ -2,7 +2,7 @@ const db = require("../db/connection");
 const format = require("pg-format");
 const { getValidTopics } = require("./topics-models");
 
-exports.selectAllArticles = async (topic, sort_by = "created_at", order = "desc") => {
+exports.selectAllArticles = async ({ topic, sort_by = "created_at", order = "desc", limit = 10, p }) => {
   const validTopics = await getValidTopics();
   const validSortBy = [
     "article_id",
@@ -60,15 +60,44 @@ exports.selectAllArticles = async (topic, sort_by = "created_at", order = "desc"
     }
   }
 
+  if (limit) {
+    if (isNaN(+limit)) {
+      return Promise.reject({
+        status: 400,
+        message: "Bad request"
+      });
+    }
+  }
+
   queryString += `
   GROUP BY articles.article_id
-  ORDER BY ${sort_by} ${order};
+  ORDER BY ${sort_by} ${order}
+  LIMIT ${limit}
   `;
+
+  if (p) {
+    if (isNaN(+p) || +p < 1) {
+      return Promise.reject({
+        status: 400,
+        message: "Bad request"
+      });
+    } else {
+      queryString += `
+      OFFSET ${(+p - 1) * +limit};
+      `;
+    }
+  }
 
   return db.query(`
   ${queryString}
   `)
     .then(({ rows }) => {
+      if (p && !rows.length) {
+        return Promise.reject({
+          status: 404,
+          message: "Page not found"
+        });
+      }
       return rows;
     });
 };
