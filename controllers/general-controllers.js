@@ -5,6 +5,5 @@ exports.getEndpoints = (req, res, next) => {
 };
 
 exports.handleNotFound = (req, res, next) => {
-  res.status(404).send({ message: "Path not found" })
-    .catch(next);
+  res.status(404).send({ message: "Path not found" });
 };
