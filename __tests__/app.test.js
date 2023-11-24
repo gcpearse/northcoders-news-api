@@ -644,6 +644,38 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
+describe("DELETE /api/articles/:article_id", () => {
+  test("DELETE:204 deletes the article with the given article_id, and any associated comments, responding with a 204 status code and no content", () => {
+    return request(app)
+      .delete("/api/articles/9")
+      .expect(204);
+  });
+
+  test("DELETE:204 deletes the article with the given article_id when that article has no associated comments", () => {
+    return request(app)
+      .delete("/api/articles/2")
+      .expect(204);
+  });
+
+  test("DELETE:404 responds with an error message when the article_id is valid but does not exist", () => {
+    return request(app)
+      .delete("/api/articles/777")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toBe("Article not found");
+      });
+  });
+
+  test("DELETE:400 responds with an error message when the article_id is invalid", () => {
+    return request(app)
+      .delete("/api/articles/seventy")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toBe("Bad request");
+      });
+  });
+});
+
 describe("GET /api/articles/:article_id/comments", () => {
   test("GET:200 responds with an array of all comments on the article with the given article_id, ordered by date (created_at) to show the most recent comments first, limited by default to 10 results", () => {
     return request(app)
@@ -992,7 +1024,7 @@ describe("PATCH /api/comments/:comment_id", () => {
       });
   });
 
-  test("PATCH:400 responds with an error message when the comment_id is valid but does not exist", () => {
+  test("PATCH:400 responds with an error message when the comment_id is invalid", () => {
     const decObject = {
       inc_votes: -4
     };
