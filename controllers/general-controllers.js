@@ -1,9 +1,17 @@
 const endpoints = require("../endpoints.json");
 
-exports.getEndpoints = (req, res, next) => {
-  res.status(200).send(endpoints);
+exports.getEndpoints = async (req, res, next) => {
+  try {
+    res.status(200).send(endpoints);
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.handleNotFound = (req, res, next) => {
-  res.status(404).send({ message: "Path not found" });
+  try {
+    res.status(404).send({ message: "Path not found" });
+  } catch (err) {
+    next(err);
+  }
 };
