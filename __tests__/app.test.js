@@ -1050,6 +1050,76 @@ describe("GET /api/topics", () => {
   });
 });
 
+describe("POST /api/topics", () => {
+  test("POST:201 responds with the newly added topic, which should have 'slug' and 'description' properties", () => {
+    const newTopic = {
+      slug: "wine",
+      description: "For passionate oenologists"
+    };
+    return request(app)
+      .post("/api/topics")
+      .send(newTopic)
+      .expect(201)
+      .then(({ body }) => {
+        const topic = body.topic;
+        expect(topic).toMatchObject({
+          slug: "wine",
+          description: "For passionate oenologists"
+        });
+      });
+  });
+
+  test("POST:201 ignores any unnecessary properties on the object", () => {
+    const newTopic = {
+      slug: "munros",
+      description: "The tallest Scottish mountains",
+      tags: ["hiking", "walking", "Scotland"]
+    };
+    return request(app)
+      .post("/api/topics")
+      .send(newTopic)
+      .expect(201)
+      .then(({ body }) => {
+        const topic = body.topic;
+        expect(topic).toMatchObject({
+          slug: "munros",
+          description: "The tallest Scottish mountains"
+        });
+      });
+  });
+
+  test("POST:201 if a description is not provided, the value of description is set to null", () => {
+    const newTopic = {
+      slug: "music",
+    };
+    return request(app)
+      .post("/api/topics")
+      .send(newTopic)
+      .expect(201)
+      .then(({ body }) => {
+        const topic = body.topic;
+        expect(topic).toMatchObject({
+          slug: "music",
+          description: null
+        });
+      });
+  });
+
+  test("POST:400 responds with an error message when provided with an invalid article (e.g. no slug property)", () => {
+    const badTopic = {
+      description: "molluscs"
+    };
+    return request(app)
+      .post("/api/topics")
+      .send(badTopic)
+      .expect(400)
+      .then(({ body }) => {
+        const message = body.message;
+        expect(message).toBe("Bad request");
+      });
+  });
+});
+
 describe("GET /api/users", () => {
   test("GET:200 responds with an array of user objects, each with 'username', 'name', and 'avatar_url' properties", () => {
     return request(app)
