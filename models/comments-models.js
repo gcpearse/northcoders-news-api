@@ -1,12 +1,54 @@
 const db = require("../db/connection");
 
-exports.selectCommentsByArticleId = (article_id) => {
+exports.selectCommentsByArticleId = (article_id, { limit = 10, p }) => {
+  if (article_id) {
+    if (isNaN(+article_id) || +article_id < 0) {
+      return Promise.reject({
+        status: 400,
+        message: "Bad request"
+      });
+    }
+  }
+
+  if (limit) {
+    if (isNaN(+limit) || +limit < 0) {
+      return Promise.reject({
+        status: 400,
+        message: "Bad request"
+      });
+    }
+  }
+
+  let queryString = `
+  SELECT * FROM comments
+  WHERE article_id = ${article_id}
+  ORDER BY created_at DESC
+  LIMIT ${limit}
+  `;
+
+  if (p) {
+    if (isNaN(+p) || +p < 1) {
+      return Promise.reject({
+        status: 400,
+        message: "Bad request"
+      });
+    } else {
+      queryString += `
+      OFFSET ${(+p - 1) * +limit};
+      `;
+    }
+  }
+
   return db.query(`
-    SELECT * FROM comments
-    WHERE article_id = $1
-    ORDER BY created_at DESC;
-    `, [article_id])
+  ${queryString}
+  `)
     .then(({ rows }) => {
+      if (p && !rows.length) {
+        return Promise.reject({
+          status: 404,
+          message: "Page not found"
+        });
+      }
       return rows;
     });
 };
