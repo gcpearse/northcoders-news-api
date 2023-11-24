@@ -8,7 +8,7 @@ exports.getEndpoints = async (req, res, next) => {
   }
 };
 
-exports.handleNotFound = (req, res, next) => {
+exports.handleNotFound = async (req, res, next) => {
   try {
     res.status(404).send({ message: "Path not found" });
   } catch (err) {
