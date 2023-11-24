@@ -3,11 +3,13 @@
     "description": "Responds with a JSON representation of all the available endpoints of the API"
   },
   "GET /api/articles": {
-    "description": "Responds with an array of all articles in the database. Results may be filtered by the value specified in one or more valid queries",
+    "description": "Responds with an array of articles in the database, with a default limit of 10 per page. Results may be filtered by the value specified in one or more valid queries. Certain queries have default values: sort_by=created_at, order=desc, limit=10",
     "queries": [
       "topic",
       "sort_by",
-      "order"
+      "order",
+      "limit",
+      "p"
     ],
     "exampleResponse": {
       "articles": [
@@ -21,7 +23,8 @@
           "article_img_url": "https://www.pexels.com/photo/shrimp-salad-on-plate-566345/",
           "comment_count": 6
         }
-      ]
+      ],
+      "total_count": 1
     }
   },
   "GET /api/articles/:article_id": {
@@ -96,7 +99,7 @@
     }
   },
   "POST /api/articles": {
-    "description": "Responds with the article object posted by the client",
+    "description": "Responds with the article object posted by the client. If an article_img_url is not provided, it will be assigned a default value of 'image_not_provided'",
     "queries": [],
     "exampleRequestBody": {
       "author": "chefpierre",
