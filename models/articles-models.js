@@ -61,7 +61,7 @@ exports.selectAllArticles = async ({ topic, sort_by = "created_at", order = "des
   }
 
   if (limit) {
-    if (isNaN(+limit)) {
+    if (isNaN(+limit) || +limit < 0) {
       return Promise.reject({
         status: 400,
         message: "Bad request"
