@@ -3,7 +3,8 @@ const { selectCommentsByArticleId, insertCommentByArticleId, removeCommentById, 
 
 exports.getCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
-  const commentsPromises = [selectCommentsByArticleId(article_id)];
+  const queries = req.query;
+  const commentsPromises = [selectCommentsByArticleId(article_id, queries)];
   if (article_id) {
     commentsPromises.push(checkArticleExists(article_id));
   }
