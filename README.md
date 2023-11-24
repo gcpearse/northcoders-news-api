@@ -8,19 +8,18 @@ It mimics a real-world forum or news website on which users are able to interact
 
 The hosted version of the API can be accessed [here](https://northcoders-news-api-twr1.onrender.com/api).
 
+The API is hosted with a free plan and spins down with inactivity, so please allow some time for it to load.
+
 ## Local Setup Instructions
 
 ### Prerequisites
 
 Please ensure you have the following installed on your local machine:
 
-| Prerequisite | Version |
+| Requirement | Minimum version |
 | --- | --- |
 | Node.js | v20.6.0 |
-| NPM | 9.8.1 |
 | PostgreSQL | 14.10 |
-
-These are the minimum versions required to run this project.
 
 ### Cloning the Repository
 
@@ -50,6 +49,8 @@ Once you have cloned the repository, open the project locally and create two .en
 `.env.development`
 
 In each file, please add ```PGDATABASE=``` followed by the required database name for that environment. The relevant database names can be found in `/db/setup.sql`.
+
+It is essential to do this in order to protect your databases.
 
 ### NPM Packages
 
