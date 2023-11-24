@@ -132,21 +132,6 @@ exports.selectArticleById = (article_id) => {
     });
 };
 
-exports.checkArticleExists = (article_id) => {
-  return db.query(`
-  SELECT * FROM articles
-  WHERE article_id = $1
-  `, [article_id])
-    .then(({ rows }) => {
-      if (!rows.length) {
-        return Promise.reject({
-          status: 404,
-          message: "Article not found"
-        });
-      }
-    });
-};
-
 exports.insertArticle = ({ author, title, body, topic, article_img_url = "image_not_provided" }) => {
   return db.query(`
   INSERT INTO articles
@@ -175,5 +160,20 @@ exports.updateArticleById = (article_id, inc_votes) => {
         });
       }
       return rows[0];
+    });
+};
+
+exports.checkArticleExists = (article_id) => {
+  return db.query(`
+  SELECT * FROM articles
+  WHERE article_id = $1
+  `, [article_id])
+    .then(({ rows }) => {
+      if (!rows.length) {
+        return Promise.reject({
+          status: 404,
+          message: "Article not found"
+        });
+      }
     });
 };
