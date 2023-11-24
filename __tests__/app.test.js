@@ -248,6 +248,15 @@ describe("GET /api/articles", () => {
         });
     });
 
+    test("GET:400 responds with an error message when the limit value in the query is a negative integer", () => {
+      return request(app)
+        .get("/api/articles?limit=-1")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("Bad request");
+        });
+    });
+
     test("GET:400 responds with an error message when the limit value in the query is invalid", () => {
       return request(app)
         .get("/api/articles?limit=ten")
@@ -636,13 +645,13 @@ describe("PATCH /api/articles/:article_id", () => {
 });
 
 describe("GET /api/articles/:article_id/comments", () => {
-  test("GET:200 responds with an array of all comments on the article with the given article_id, ordered by date (created_at) to show the most recent comments first", () => {
+  test("GET:200 responds with an array of all comments on the article with the given article_id, ordered by date (created_at) to show the most recent comments first, limited by default to 10 results", () => {
     return request(app)
       .get("/api/articles/1/comments")
       .expect(200)
       .then(({ body }) => {
         const comments = body.comments;
-        expect(comments).toHaveLength(11);
+        expect(comments).toHaveLength(10);
         comments.forEach((comment) => {
           expect(comment).toMatchObject({
             comment_id: expect.any(Number),
@@ -684,6 +693,143 @@ describe("GET /api/articles/:article_id/comments", () => {
       .then(({ body }) => {
         expect(body.message).toBe("Bad request");
       });
+  });
+
+  describe("GET /api/articles/:article_id/comments (limit query)", () => {
+    test("GET:200 responds with an array of comments on the article with the given article_id, limited to the value of the limit query", () => {
+      return request(app)
+        .get("/api/articles/1/comments?limit=5")
+        .expect(200)
+        .then(({ body }) => {
+          const comments = body.comments;
+          expect(comments).toHaveLength(5);
+          comments.forEach((comment) => {
+            expect(comment).toMatchObject({
+              comment_id: expect.any(Number),
+              body: expect.any(String),
+              article_id: expect.any(Number),
+              author: expect.any(String),
+              votes: expect.any(Number),
+              created_at: expect.any(String)
+            });
+          });
+          expect(comments).toBeSortedBy("created_at", {
+            descending: true
+          });
+        });
+    });
+
+    test("GET:200 responds with an array of all comments on the article when the value of limit exceeds the total number of results", () => {
+      return request(app)
+        .get("/api/articles/1/comments?limit=20")
+        .expect(200)
+        .then(({ body }) => {
+          const comments = body.comments;
+          expect(comments).toHaveLength(11);
+          comments.forEach((comment) => {
+            expect(comment).toMatchObject({
+              comment_id: expect.any(Number),
+              body: expect.any(String),
+              article_id: expect.any(Number),
+              author: expect.any(String),
+              votes: expect.any(Number),
+              created_at: expect.any(String)
+            });
+          });
+          expect(comments).toBeSortedBy("created_at", {
+            descending: true
+          });
+        });
+    });
+
+    test("GET:200 responds with an empty array when there are no comments on the article", () => {
+      return request(app)
+        .get("/api/articles/2/comments?limit=10")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.comments).toEqual([]);
+        });
+    });
+
+    test("GET:200 responds with an empty array when the limit value is zero", () => {
+      return request(app)
+        .get("/api/articles/1/comments?limit=0")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.comments).toEqual([]);
+        });
+    });
+
+    test("GET:400 responds with an error message when the limit value in the query is a negative integer", () => {
+      return request(app)
+        .get("/api/articles/1/comments?limit=-1")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("Bad request");
+        });
+    });
+
+    test("GET:400 responds with an error message when the limit value in the query is invalid", () => {
+      return request(app)
+        .get("/api/articles/1/comments?limit=five")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("Bad request");
+        });
+    });
+  });
+
+  describe("GET /api/articles (page query)", () => {
+    test("GET:200 responds with an array of comments on the article with the given article_id, starting from the page number given as the value for the p query", () => {
+      return request(app)
+        .get("/api/articles/1/comments?p=2")
+        .expect(200)
+        .then(({ body }) => {
+          const comments = body.comments;
+          expect(comments).toHaveLength(1);
+          expect(comments[0].comment_id).toBe(9);
+        });
+    });
+
+    test("GET:200 page query works in tandem with limit query", () => {
+      return request(app)
+        .get("/api/articles/1/comments?limit=3&p=3")
+        .expect(200)
+        .then(({ body }) => {
+          const comments = body.comments;
+          expect(comments).toHaveLength(3);
+          expect(comments[0].comment_id).toBe(6);
+          expect(comments[1].comment_id).toBe(12);
+          expect(comments[2].comment_id).toBe(3);
+        });
+    });
+
+    test("GET:404 responds with an error message when the page query exceeds the total number of pages", () => {
+      return request(app)
+        .get("/api/articles/1/comments?p=3")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.message).toBe("Page not found");
+        });
+    });
+
+    test("GET:400 responds with an error message when the page value in the query is invalid", () => {
+      return request(app)
+        .get("/api/articles/3/comments?p=two")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("Bad request");
+        });
+    });
+
+    test("GET:400 responds with an error message when the page value is an integer smaller than 1", () => {
+      return request(app)
+        .get("/api/articles/3/comments?p=-1")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("Bad request");
+        });
+    });
   });
 });
 

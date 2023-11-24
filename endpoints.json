@@ -45,8 +45,11 @@
     }
   },
   "GET /api/articles/:article_id/comments": {
-    "description": "Responds with an array of comments on the article with the passed article_id",
-    "queries": [],
+    "description": "Responds with an array of comments on the article with the passed article_id, with a default limit of 10. Results may be filtered by the value specified in one or more valid queries",
+    "queries": [
+      "limit",
+      "p"
+    ],
     "exampleResponse": {
       "comments": [
         {
