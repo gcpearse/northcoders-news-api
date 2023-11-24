@@ -1,9 +1,9 @@
 {
   "GET /api": {
-    "description": "Responds with a JSON representation of all the available endpoints of the API"
+    "description": "Responds with a JSON representation of all available endpoints for this API"
   },
   "GET /api/articles": {
-    "description": "Responds with an array of articles in the database, with a default limit of 10 per page. Results may be filtered by the value specified in one or more valid queries. Certain queries have default values: sort_by=created_at, order=desc, limit=10",
+    "description": "Responds with an array of articles in the database. By default, results are limited to ten per page and ordered by the date on which they were created, with more recent articles listed first. Users may filter results by the value specified in one or more valid queries",
     "queries": [
       "topic",
       "sort_by",
@@ -15,12 +15,12 @@
       "articles": [
         {
           "article_id": 101,
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
-          "author": "weegembump",
+          "title": "Personal projects are essential",
+          "topic": "coding",
+          "author": "leetcoder",
           "created_at": "2018-05-30T15:59:13.341Z",
           "votes": 0,
-          "article_img_url": "https://www.pexels.com/photo/shrimp-salad-on-plate-566345/",
+          "article_img_url": "https://www.pexels.com/photo",
           "comment_count": 6
         }
       ],
@@ -28,7 +28,7 @@
     }
   },
   "GET /api/articles/:article_id": {
-    "description": "Responds with an article object matching the passed value of article_id. The object will include a comment_count property to show the total number of comments on that article",
+    "description": "If the article_id provided matches an article in the database, an article object will be returned. The object will include a comment_count property indicating the total number of comments on that article",
     "queries": [],
     "exampleResponse": {
       "article": {
@@ -36,16 +36,16 @@
         "title": "Struggling to find closure",
         "topic": "functions",
         "author": "northcoder2023",
-        "body": "Certain coding topics are...",
+        "body": "Certain topics are more complex than others...",
         "created_at": "2023-11-20T15:59:13.000Z",
         "votes": 3,
-        "article_img_url": "https://www.pexels.com/photo/photo-of-turned-on-laptop-computer-943096/",
+        "article_img_url": "https://www.pexels.com/photo",
         "comment_count": 9
       }
     }
   },
   "GET /api/articles/:article_id/comments": {
-    "description": "Responds with an array of comments on the article with the passed article_id, with a default limit of 10. Results may be filtered by the value specified in one or more valid queries",
+    "description": "If the article_id provided matches an article in the database, an array of comments on that article will be returned. By default, results are limited to ten per page. Users may filter results by the value specified in one or more valid queries",
     "queries": [
       "limit",
       "p"
@@ -54,7 +54,7 @@
       "comments": [
         {
           "comment_id": 123,
-          "body": "Some text here...",
+          "body": "We would this article to feature on our home page",
           "article_id": 234,
           "author": "forum_mod",
           "votes": 345,
@@ -69,8 +69,12 @@
     "exampleResponse": {
       "topics": [
         {
-          "slug": "football",
-          "description": "The beautiful game"
+          "slug": "Node.js",
+          "description": "Our favourite runtime environment"
+        },
+        {
+          "slug": "PostgreSQL",
+          "description": "A world-class relational database management system"
         }
       ]
     }
@@ -89,7 +93,7 @@
     }
   },
   "GET /api/users/:username": {
-    "description": "Responds with a user object if the passed username matches a username in the database",
+    "description": "If the provided username matches a username in the database, a user object will be returned",
     "queries": [],
     "exampleResponse": {
       "users": [
@@ -102,7 +106,7 @@
     }
   },
   "POST /api/articles": {
-    "description": "Responds with the article object posted by the client. If an article_img_url is not provided, it will be assigned a default value of 'image_not_provided'",
+    "description": "Responds with the article object posted by the client. If a value is not provided for article_img_url, it will default to 'image_not_provided'",
     "queries": [],
     "exampleRequestBody": {
       "author": "chefpierre",
@@ -136,7 +140,7 @@
         "comment_id": 19,
         "body": "Has anyone heard any more about this?",
         "article_id": 5,
-        "author": "lurker",
+        "author": "api_expert",
         "votes": 0,
         "created_at": "2023-09-02T13:53:23.000Z"
       }
@@ -155,7 +159,7 @@
     }
   },
   "PATCH /api/articles/:article_id": {
-    "description": "Responds with the article object updated by the client",
+    "description": "Responds with an updated article object",
     "queries": [],
     "exampleRequestBody": {
       "inc_votes": 1
@@ -169,13 +173,13 @@
         "body": "The highlight of any trip to Latin America...",
         "created_at": "2023-11-21T19:15:00.000Z",
         "votes": 1,
-        "article_img_url": "https://www.pexels.com/photo/mountains-under-blue-sky-1624880/",
+        "article_img_url": "https://www.pexels.com/photo",
         "comment_count": 24
       }
     }
   },
   "PATCH /api/comments/:comment_id": {
-    "description": "Responds with the comment object updated by the client",
+    "description": "Responds with an updated comment object",
     "queries": [],
     "exampleRequestBody": {
       "inc_votes": -1
