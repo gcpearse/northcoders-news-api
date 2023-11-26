@@ -10,13 +10,15 @@ The hosted version of the API can be accessed [here](https://northcoders-news-ap
 
 The API is hosted with a free plan and spins down with inactivity, so please allow some time for it to load.
 
+Before viewing the page, you may wish to install a browser extension to format JSON.
+
 ## Local Setup Instructions
 
 ### Prerequisites
 
 Please ensure you have the following installed on your local machine:
 
-| Requirement | Minimum version |
+| Requirement | Minimum Version |
 | --- | --- |
 | Node.js | v20.6.0 |
 | PostgreSQL | 14.10 |
@@ -48,9 +50,13 @@ Once you have cloned the repository, open the project locally and create two .en
 `.env.test`\
 `.env.development`
 
-In each file, please add ```PGDATABASE=``` followed by the required database name for that environment. The relevant database names can be found in `/db/setup.sql`.
+In each file, please add `PGDATABASE=` followed by the required database name for that environment. The relevant database names can be found in `/db/setup.sql`.
 
-It is essential to do this in order to protect your databases.
+It is essential to do this in order to protect your databases. The .gitignore file already includes a line to prevent your own `.env` files from being included when you make a commit.
+
+If you would like to host your own project, you will also need a `.env.production` file, to which you should add `DATABASE_URL=` followed by the URL of your server instance.
+
+A server instance can be created quickly and easily on ElephantSQL: https://www.elephantsql.com. The URL can be found on the Details page of your instance.
 
 ### NPM Packages
 
@@ -71,6 +77,8 @@ npm run setup-dbs
 npm run seed
 ```
 
+
+
 ### Testing
 
 The full test suite can now be run with any of the following commands:
@@ -80,4 +88,3 @@ npm run test
 npm test
 npm t
 ```
-
