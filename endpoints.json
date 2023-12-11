@@ -54,7 +54,7 @@
       "comments": [
         {
           "comment_id": 123,
-          "body": "We would this article to feature on our home page",
+          "body": "We would like this article to feature on our home page",
           "article_id": 234,
           "author": "forum_mod",
           "votes": 345,
@@ -196,12 +196,12 @@
     }
   },
   "DELETE /api/articles/:article_id": {
-    "description": "Responds with a 204 status code and no content",
+    "description": "Deletes the article with the corresponding article_id. Responds with a 204 status code and no content",
     "queries": [],
     "exampleResponse": {}
   },
   "DELETE /api/comments/:comment_id": {
-    "description": "Responds with a 204 status code and no content",
+    "description": "Deletes the comment with the corresponding comment_id. Responds with a 204 status code and no content",
     "queries": [],
     "exampleResponse": {}
   }
