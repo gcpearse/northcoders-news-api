@@ -132,7 +132,7 @@ exports.selectArticleById = (article_id) => {
     });
 };
 
-exports.insertArticle = ({ author, title, body, topic, article_img_url = "image_not_provided" }) => {
+exports.insertArticle = ({ author, title, body, topic, article_img_url = "No image provided" }) => {
   return db.query(`
   INSERT INTO articles
     (author, title, body, topic, article_img_url)

@@ -447,7 +447,7 @@ describe("POST /api/articles", () => {
           body: "But I don't have a picture of him",
           created_at: expect.any(String),
           votes: 0,
-          article_img_url: "image_not_provided",
+          article_img_url: "No image provided",
           comment_count: 0
         });
       });
