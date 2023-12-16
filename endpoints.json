@@ -3,7 +3,7 @@
     "description": "Responds with a JSON representation of all available endpoints for this API"
   },
   "GET /api/articles": {
-    "description": "Responds with an array of articles in the database. By default, results are limited to ten per page and ordered by the date on which they were created, with more recent articles listed first. Users may filter results by the value specified in one or more valid queries",
+    "description": "Responds with an array of articles in the database. By default, results are limited to ten per page and ordered by the date on which they were created, with more recent articles listed first. Users may filter results by the value specified in one or more valid queries. The response body includes page_count, which is the article count after the page limit has been applied, and full_count, which is the total number of articles ignoring any page limit",
     "queries": [
       "topic",
       "sort_by",
@@ -24,7 +24,8 @@
           "comment_count": 6
         }
       ],
-      "total_count": 1
+      "page_count": 1,
+      "full_count": 1
     }
   },
   "GET /api/articles/:article_id": {
