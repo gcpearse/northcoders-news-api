@@ -154,8 +154,10 @@
       "description": "books of the world"
     },
     "exampleResponse": {
-      "slug": "literature",
-      "description": "books of the world"
+      "topic": {
+        "slug": "literature",
+        "description": "books of the world"
+      }
     }
   },
   "PATCH /api/articles/:article_id": {
@@ -185,7 +187,7 @@
       "inc_votes": -1
     },
     "exampleResponse": {
-      "article": {
+      "comment": {
         "comment_id": 25,
         "body": "I have to disagree with you here",
         "article_id": 12,
