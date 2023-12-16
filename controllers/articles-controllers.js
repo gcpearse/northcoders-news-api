@@ -3,10 +3,11 @@ const { selectArticleById, selectAllArticles, updateArticleById, insertArticle, 
 exports.getArticles = (req, res, next) => {
   const queries = req.query;
   selectAllArticles(queries)
-    .then((articles) => {
+    .then((result) => {
       res.status(200).send({
-        articles: articles,
-        total_count: articles.length
+        articles: result[0],
+        page_count: result[0].length,
+        full_count: result[1]
       });
     })
     .catch(next);

@@ -25,8 +25,10 @@ describe("GET /api/articles", () => {
       .get("/api/articles")
       .expect(200)
       .then(({ body }) => {
-        const total_count = body.total_count;
-        expect(total_count).toBe(10);
+        const page_count = body.page_count;
+        expect(page_count).toBe(10);
+        const full_count = body.full_count;
+        expect(full_count).toBe(13);
         const articles = body.articles;
         articles.forEach((article) => {
           expect(article).toMatchObject({
@@ -52,8 +54,10 @@ describe("GET /api/articles", () => {
         .get("/api/articles?topic=cats")
         .expect(200)
         .then(({ body }) => {
-          const total_count = body.total_count;
-          expect(total_count).toBe(1);
+          const page_count = body.page_count;
+          expect(page_count).toBe(1);
+          const full_count = body.full_count;
+          expect(full_count).toBe(1);
           const articles = body.articles;
           articles.forEach((article) => {
             expect(article).toMatchObject({
@@ -78,8 +82,10 @@ describe("GET /api/articles", () => {
         .get("/api/articles?topic=paper")
         .expect(200)
         .then(({ body }) => {
-          const total_count = body.total_count;
-          expect(total_count).toBe(0);
+          const page_count = body.page_count;
+          expect(page_count).toBe(0);
+          const full_count = body.full_count;
+          expect(full_count).toBe(0);
           const articles = body.articles;
           expect(articles).toHaveLength(0);
         });
@@ -101,8 +107,10 @@ describe("GET /api/articles", () => {
         .get("/api/articles?sort_by=title")
         .expect(200)
         .then(({ body }) => {
-          const total_count = body.total_count;
-          expect(total_count).toBe(10);
+          const page_count = body.page_count;
+          expect(page_count).toBe(10);
+          const full_count = body.full_count;
+          expect(full_count).toBe(13);
           const articles = body.articles;
           articles.forEach((article) => {
             expect(article).toMatchObject({
@@ -127,8 +135,10 @@ describe("GET /api/articles", () => {
         .get("/api/articles?sort_by=comment_count")
         .expect(200)
         .then(({ body }) => {
-          const total_count = body.total_count;
-          expect(total_count).toBe(10);
+          const page_count = body.page_count;
+          expect(page_count).toBe(10);
+          const full_count = body.full_count;
+          expect(full_count).toBe(13);
           const articles = body.articles;
           articles.forEach((article) => {
             expect(article).toMatchObject({
@@ -164,8 +174,10 @@ describe("GET /api/articles", () => {
         .get("/api/articles?order=asc")
         .expect(200)
         .then(({ body }) => {
-          const total_count = body.total_count;
-          expect(total_count).toBe(10);
+          const page_count = body.page_count;
+          expect(page_count).toBe(10);
+          const full_count = body.full_count;
+          expect(full_count).toBe(13);
           const articles = body.articles;
           articles.forEach((article) => {
             expect(article).toMatchObject({
@@ -201,8 +213,10 @@ describe("GET /api/articles", () => {
         .get("/api/articles?limit=5")
         .expect(200)
         .then(({ body }) => {
-          const total_count = body.total_count;
-          expect(total_count).toBe(5);
+          const page_count = body.page_count;
+          expect(page_count).toBe(5);
+          const full_count = body.full_count;
+          expect(full_count).toBe(13);
           const articles = body.articles;
           articles.forEach((article) => {
             expect(article).toMatchObject({
@@ -227,8 +241,10 @@ describe("GET /api/articles", () => {
         .get("/api/articles?limit=20")
         .expect(200)
         .then(({ body }) => {
-          const total_count = body.total_count;
-          expect(total_count).toBe(13);
+          const page_count = body.page_count;
+          expect(page_count).toBe(13);
+          const full_count = body.full_count;
+          expect(full_count).toBe(13);
           const articles = body.articles;
           articles.forEach((article) => {
             expect(article).toMatchObject({
@@ -273,8 +289,10 @@ describe("GET /api/articles", () => {
         .get("/api/articles?p=2")
         .expect(200)
         .then(({ body }) => {
-          const total_count = body.total_count;
-          expect(total_count).toBe(3);
+          const page_count = body.page_count;
+          expect(page_count).toBe(3);
+          const full_count = body.full_count;
+          expect(full_count).toBe(13);
           const articles = body.articles;
           expect(articles[0].article_id).toBe(8);
           expect(articles[1].article_id).toBe(11);
@@ -290,8 +308,10 @@ describe("GET /api/articles", () => {
         .get("/api/articles?limit=2&p=4")
         .expect(200)
         .then(({ body }) => {
-          const total_count = body.total_count;
-          expect(total_count).toBe(2);
+          const page_count = body.page_count;
+          expect(page_count).toBe(2);
+          const full_count = body.full_count;
+          expect(full_count).toBe(13);
           const articles = body.articles;
           expect(articles[0].article_id).toBe(1);
           expect(articles[1].article_id).toBe(9);
@@ -335,8 +355,10 @@ describe("GET /api/articles", () => {
         .get("/api/articles?topic=mitch&sort_by=author&order=asc")
         .expect(200)
         .then(({ body }) => {
-          const total_count = body.total_count;
-          expect(total_count).toBe(10);
+          const page_count = body.page_count;
+          expect(page_count).toBe(10);
+          const full_count = body.full_count;
+          expect(full_count).toBe(12);
           const articles = body.articles;
           articles.forEach((article) => {
             expect(article).toMatchObject({
@@ -361,8 +383,10 @@ describe("GET /api/articles", () => {
         .get("/api/articles?topic=mitch&sort_by=article_id&order=asc&limit=4&p=2")
         .expect(200)
         .then(({ body }) => {
-          const total_count = body.total_count;
-          expect(total_count).toBe(4);
+          const page_count = body.page_count;
+          expect(page_count).toBe(4);
+          const full_count = body.full_count;
+          expect(full_count).toBe(12);
           const articles = body.articles;
           expect(articles[0].article_id).toBe(6);
           expect(articles[1].article_id).toBe(7);

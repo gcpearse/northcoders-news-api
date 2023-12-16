@@ -31,6 +31,13 @@ exports.selectAllArticles = async ({ topic, sort_by = "created_at", order = "des
   ON articles.article_id = comments.article_id
   `;
 
+  let countQueryString = `
+  SELECT
+    COUNT(articles.article_id)::INT
+    AS full_count
+  FROM articles
+  `;
+
   if (topic) {
     if (!validTopics.includes(topic)) {
       return Promise.reject({
@@ -39,6 +46,7 @@ exports.selectAllArticles = async ({ topic, sort_by = "created_at", order = "des
       });
     } else {
       queryString += format(`WHERE topic = %L`, topic);
+      countQueryString += format(`WHERE topic = %L`, topic);
     }
   }
 
@@ -88,7 +96,7 @@ exports.selectAllArticles = async ({ topic, sort_by = "created_at", order = "des
     }
   }
 
-  return db.query(`
+  const articles = await db.query(`
   ${queryString}
   `)
     .then(({ rows }) => {
@@ -100,6 +108,14 @@ exports.selectAllArticles = async ({ topic, sort_by = "created_at", order = "des
       }
       return rows;
     });
+
+  const fullCount = await db.query(`
+  ${countQueryString}`)
+    .then(({ rows }) => {
+      return rows[0].full_count;
+    });
+
+  return [articles, fullCount];
 };
 
 exports.selectArticleById = (article_id) => {
