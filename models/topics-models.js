@@ -2,7 +2,15 @@ const db = require("../db/connection");
 
 exports.selectAllTopics = () => {
   return db.query(`
-  SELECT * FROM topics;
+  SELECT 
+    topics.slug, 
+    topics.description, 
+    COUNT(articles.topic)::INT
+    AS article_count
+  FROM topics
+  LEFT OUTER JOIN articles
+  ON topics.slug = articles.topic
+  GROUP BY topics.slug;
   `)
     .then(({ rows }) => {
       return rows;
