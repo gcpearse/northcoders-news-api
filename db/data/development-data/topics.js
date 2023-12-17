@@ -1,5 +1,5 @@
 module.exports = [
-  { description: 'Code is love, code is life', slug: 'coding' },
-  { description: 'FOOTIE!', slug: 'football' },
-  { description: 'Hey good looking, what you got cooking?', slug: 'cooking' }
+  { description: 'Everything from RESTful APIs to React.js', slug: 'coding' },
+  { description: 'We call it the beautiful game', slug: 'football' },
+  { description: 'For home cooks and professional chefs', slug: 'cooking' }
 ];
