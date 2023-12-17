@@ -114,6 +114,7 @@
     "exampleRequestBody": {
       "author": "chefpierre",
       "title": "French cuisine",
+      "article_img_url": "",
       "body": "My top tips for home cooking",
       "topic": "cooking"
     },
