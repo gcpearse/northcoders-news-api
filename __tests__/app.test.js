@@ -1089,7 +1089,7 @@ describe("DELETE /api/comments/:comment_id", () => {
 });
 
 describe("GET /api/topics", () => {
-  test("GET:200 responds with an array of topics objects, each with 'slug' and 'description' properties", () => {
+  test("GET:200 responds with an array of topics objects, each with 'slug', 'description', and 'article_count' properties", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
@@ -1099,7 +1099,8 @@ describe("GET /api/topics", () => {
         topics.forEach(topic => {
           expect(topic).toMatchObject({
             slug: expect.any(String),
-            description: expect.any(String)
+            description: expect.any(String),
+            article_count: expect.any(Number)
           });
         });
       });
