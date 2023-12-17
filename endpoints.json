@@ -71,11 +71,13 @@
       "topics": [
         {
           "slug": "Node.js",
-          "description": "Our favourite runtime environment"
+          "description": "Our favourite runtime environment",
+          "article_count": 4
         },
         {
           "slug": "PostgreSQL",
-          "description": "A world-class relational database management system"
+          "description": "A world-class relational database management system",
+          "article_count": 7
         }
       ]
     }
